@@ -11,195 +11,6 @@ import requests
 import math
 from random import randint,uniform
 
-class TestFunctionalDivision(object):
-    
-    def test_DivisionOfTwoPositiveIntegers(self):
-        a= round(uniform(0.0,100.0),0)
-        b= round(uniform(0.0,100.0),0)
-        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
-        print url
-        getResponse = requests.get(url=url)
-        response = getResponse.text
-        data = getResponse.json()
-        myDict = {}
-        print a/b
-
-        if data != (a/b):
-            
-            myDict[a,b]=data
-            print myDict
-        
-        try :
-            assert len(myDict) == 0, "Wrong result"
-        except Exception:
-            pytest.xfail("Failed")
-    
-    def test_DivisionOfTwoNegativeIntegers(self):
-        a= round(uniform(-100,0),0)
-        b= round(uniform(-100,0),0)
-        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
-        getResponse = requests.get(url=url)
-        
-        response = getResponse.text
-        data = getResponse.json()
-        
-        myDict = {}
-        if data != (a/b):
-            
-            myDict[a,b]=data
-            print myDict
-        
-        try :
-            assert len(myDict) == 0, "Wrong result"
-        except Exception:
-            pytest.xfail("Failed")
-
-    def test_DivisionOfTPosiitveAndNegativeInteger(self):
-        a= round(uniform(0,100),0)
-        b= round(uniform(-100,0),0)
-        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
-        getResponse = requests.get(url=url)
-        
-        response = getResponse.text
-        data = getResponse.json()
-        
-        myDict = {}
-        if data != (a/b):
-            
-            myDict[a,b]=data
-            print myDict
-        
-        try :
-            assert len(myDict) == 0, "Wrong result"
-        except Exception:
-            pytest.xfail("Failed")
-
-    def test_DivisionOfPositiveNumberAndZero(self):
-        a= 55.0
-        b=0.0
-        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
-        
-        getResponse = requests.get(url=url)
-        
-        response = getResponse.text
-        data = getResponse.json()
-        
-        myDict = {}
-        if data != (a/b):
-            
-            myDict[a,b]=data
-            print myDict
-        
-        try :
-            assert len(myDict) == 0, "Wrong result"
-        except Exception:
-            pytest.xfail("Failed")
-    
-    def test_DivisionOfZeroAndPositiveNumber(self):
-        a= 0.0
-        b=44.0
-        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
-        
-        getResponse = requests.get(url=url)
-        
-        response = getResponse.text
-        data = getResponse.json()
-        
-        myDict = {}
-        if data != (a/b):
-            
-            myDict[a,b]=data
-            print myDict
-        
-        try :
-            assert len(myDict) == 0, "Wrong result"
-        except Exception:
-            pytest.xfail("Failed")
-
-
-class TestFunctionalMultiplication(object):
-    
-    def test_MultiplicationOfTwoPositiveIntegers(self):
-        a= randint(0,100)
-        b= randint(0,100)
-        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&b=" + str(b)
-        getResponse = requests.get(url=url)
-        response = getResponse.text
-        data = getResponse.json()
-        myDict = {}
-        if data != (a*b):
-            
-            myDict[a,b]=data
-            print myDict
-        
-        try :
-            assert len(myDict) == 0, "Wrong result"
-        except Exception:
-            pytest.xfail("Failed")
-    
-    def test_MultiplicationOfTwoNegativeIntegers(self):
-        a= randint(-100,0)
-        b= randint(-100,0)
-        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&b=" + str(b)
-        getResponse = requests.get(url=url)
-        
-        response = getResponse.text
-        data = getResponse.json()
-        
-        myDict = {}
-        if data != (a*b):
-            
-            myDict[a,b]=data
-            print myDict
-        
-        try :
-            assert len(myDict) == 0, "Wrong result"
-        except Exception:
-            pytest.xfail("Failed")
-
-    def test_MultiplicationOfTPosiitveAndNegativeInteger(self):
-        a= randint(0,100)
-        b= randint(-100,0)
-        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&b=" + str(b)
-        getResponse = requests.get(url=url)
-        
-        response = getResponse.text
-        data = getResponse.json()
-        
-        myDict = {}
-        if data != (a*b):
-            
-            myDict[a,b]=data
-            print myDict
-        
-        try :
-            assert len(myDict) == 0, "Wrong result"
-        except Exception:
-            pytest.xfail("Failed")
-
-    def test_MultiplicationOfPositiveNumberAndZero(self):
-        a= 55
-        b=0
-        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&b=" + str(b)
-        
-        getResponse = requests.get(url=url)
-        
-        response = getResponse.text
-        data = getResponse.json()
-        
-        myDict = {}
-        if data != (a*b):
-            
-            myDict[a,b]=data
-            print myDict
-        
-        try :
-            assert len(myDict) == 0, "Wrong result"
-        except Exception:
-            pytest.xfail("Failed")
-
-
-
 class TestFunctionalAddition(object):
     
     def test_AdditionOfTwoPositiveIntegers(self):
@@ -361,6 +172,194 @@ class TestFunctionalSubtraction(object):
             assert len(myDict) == 0, "Wrong result"
         except Exception:
             pytest.xfail("Failed")
+
+
+class TestFunctionalMultiplication(object):
+    
+    def test_MultiplicationOfTwoPositiveIntegers(self):
+        a= randint(0,100)
+        b= randint(0,100)
+        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&b=" + str(b)
+        getResponse = requests.get(url=url)
+        response = getResponse.text
+        data = getResponse.json()
+        myDict = {}
+        if data != (a*b):
+            
+            myDict[a,b]=data
+            print myDict
+        
+        try :
+            assert len(myDict) == 0, "Wrong result"
+        except Exception:
+            pytest.xfail("Failed")
+    
+    def test_MultiplicationOfTwoNegativeIntegers(self):
+        a= randint(-100,0)
+        b= randint(-100,0)
+        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&b=" + str(b)
+        getResponse = requests.get(url=url)
+        
+        response = getResponse.text
+        data = getResponse.json()
+        
+        myDict = {}
+        if data != (a*b):
+            
+            myDict[a,b]=data
+            print myDict
+        
+        try :
+            assert len(myDict) == 0, "Wrong result"
+        except Exception:
+            pytest.xfail("Failed")
+
+    def test_MultiplicationOfTPosiitveAndNegativeInteger(self):
+        a= randint(0,100)
+        b= randint(-100,0)
+        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&b=" + str(b)
+        getResponse = requests.get(url=url)
+        
+        response = getResponse.text
+        data = getResponse.json()
+        
+        myDict = {}
+        if data != (a*b):
+            
+            myDict[a,b]=data
+            print myDict
+        
+        try :
+            assert len(myDict) == 0, "Wrong result"
+        except Exception:
+            pytest.xfail("Failed")
+
+    def test_MultiplicationOfPositiveNumberAndZero(self):
+        a= 55
+        b=0
+        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&b=" + str(b)
+        
+        getResponse = requests.get(url=url)
+        
+        response = getResponse.text
+        data = getResponse.json()
+        
+        myDict = {}
+        if data != (a*b):
+            
+            myDict[a,b]=data
+            print myDict
+        
+        try :
+            assert len(myDict) == 0, "Wrong result"
+        except Exception:
+            pytest.xfail("Failed")
+
+class TestFunctionalDivision(object):
+    
+    def test_DivisionOfTwoPositiveIntegers(self):
+        a= round(uniform(0.0,100.0),0)
+        b= round(uniform(0.0,100.0),0)
+        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
+        
+        getResponse = requests.get(url=url)
+        response = getResponse.text
+        data = getResponse.json()
+        myDict = {}
+
+        if data != (a/b):
+            
+            myDict[a,b]=data
+            print myDict
+        
+        try :
+            assert len(myDict) == 0, "Wrong result"
+        except Exception:
+            pytest.xfail("Failed")
+    
+    def test_DivisionOfTwoNegativeIntegers(self):
+        a= round(uniform(-100,0),0)
+        b= round(uniform(-100,0),0)
+        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
+        getResponse = requests.get(url=url)
+        
+        response = getResponse.text
+        data = getResponse.json()
+        
+        myDict = {}
+        if data != (a/b):
+            
+            myDict[a,b]=data
+            print myDict
+        
+        try :
+            assert len(myDict) == 0, "Wrong result"
+        except Exception:
+            pytest.xfail("Failed")
+
+    def test_DivisionOfTPosiitveAndNegativeInteger(self):
+        a= round(uniform(0,100),0)
+        b= round(uniform(-100,0),0)
+        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
+        getResponse = requests.get(url=url)
+        
+        response = getResponse.text
+        data = getResponse.json()
+        
+        myDict = {}
+        if data != (a/b):
+            
+            myDict[a,b]=data
+            print myDict
+        
+        try :
+            assert len(myDict) == 0, "Wrong result"
+        except Exception:
+            pytest.xfail("Failed")
+
+    def test_DivisionOfPositiveNumberAndZero(self):
+        a= 55.0
+        b=0.0
+        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
+        
+        getResponse = requests.get(url=url)
+        
+        response = getResponse.text
+        data = getResponse.json()
+        
+        myDict = {}
+        if data != (a/b):
+            
+            myDict[a,b]=data
+            print myDict
+        
+        try :
+            assert len(myDict) == 0, "Wrong result"
+        except Exception:
+            pytest.xfail("Failed")
+    
+    def test_DivisionOfZeroAndPositiveNumber(self):
+        a= 0.0
+        b=44.0
+        url = "http://localhost:8080/math/divide?a="+ str(a)+"&b=" + str(b)
+        
+        getResponse = requests.get(url=url)
+        
+        response = getResponse.text
+        data = getResponse.json()
+        
+        myDict = {}
+        if data != (a/b):
+            
+            myDict[a,b]=data
+            print myDict
+        
+        try :
+            assert len(myDict) == 0, "Wrong result"
+        except Exception:
+            pytest.xfail("Failed")
+
+
 
 class TestFunctionalSquareRoot(object):
     

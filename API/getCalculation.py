@@ -20,26 +20,4 @@ def weather():
     print data
     print a+b
     
-    # currentTemp = int(data['currently']['temperature'])
-    
-    # if case == 1:
-        
-    #     minTemp = nested_lookup('temperatureMin',data['daily']['data'])
-    #     minTemp = minTemp[1:6]
-    #     for i in range(len(minTemp)):
-    #         minTemp[i] = str(int(minTemp[i]))
-    #     return minTemp
-
-    # elif case == 2:
-    #     maxTemp = nested_lookup('temperatureMax',data['daily']['data'])
-    #     maxTemp = maxTemp[1:6]
-    #     for i in range(len(maxTemp)):
-    #         maxTemp[i] = str(int(maxTemp[i]))
-
-    #     return maxTemp
-
-    # else :
-    #     currentTemp = str(int(data['currently']['temperature']))
-    #     return currentTemp
-    
 weather()
