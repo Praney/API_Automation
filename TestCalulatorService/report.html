@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <style>body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	min-width: 1200px;
+	color: #999;
+}
+h2 {
+	font-size: 16px;
+	color: black;
+}
+
+p {
+    color: black;
+}
+
+a {
+	color: #999;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+
+#environment td {
+	padding: 5px;
+	border: 1px solid #E6E6E6;
+}
+
+#environment tr:nth-child(odd) {
+	background-color: #f6f6f6;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed, .passed .col-result {
+	color: green;
+}
+span.skipped, span.xfailed, span.rerun, .skipped .col-result, .xfailed .col-result, .rerun .col-result {
+	color: orange;
+}
+span.error, span.failed, span.xpassed, .error .col-result, .failed .col-result, .xpassed .col-result  {
+	color: red;
+}
+
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+
+#results-table {
+	border: 1px solid #e6e6e6;
+	color: #999;
+	font-size: 12px;
+	width: 100%
+}
+
+#results-table th, #results-table td {
+	padding: 5px;
+	border: 1px solid #E6E6E6;
+	text-align: left
+}
+#results-table th {
+	font-weight: bold
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+
+.log:only-child {
+	height: inherit
+}
+.log {
+	background-color: #e6e6e6;
+	border: 1px solid #e6e6e6;
+	color: black;
+	display: block;
+	font-family: "Courier New", Courier, monospace;
+	height: 230px;
+	overflow-y: scroll;
+	padding: 5px;
+	white-space: pre-wrap
+}
+div.image {
+	border: 1px solid #e6e6e6;
+	float: right;
+	height: 240px;
+	margin-left: 5px;
+	overflow: hidden;
+	width: 320px
+}
+div.image img {
+	width: 320px
+}
+.collapsed {
+	display: none;
+}
+.expander::after {
+	content: " (show details)";
+	color: #BBB;
+	font-style: italic;
+	cursor: pointer;
+}
+.collapser::after {
+	content: " (hide details)";
+	color: #BBB;
+	font-style: italic;
+	cursor: pointer;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+	cursor: pointer;
+}
+
+.sort-icon {
+	font-size: 0px;
+	float: left;
+	margin-right: 5px;
+	margin-top: 5px;
+	/*triangle*/
+	width: 0;
+	height: 0;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+}
+
+.inactive .sort-icon {
+	/*finish triangle*/
+	border-top: 8px solid #E6E6E6;
+}
+
+.asc.active .sort-icon {
+	/*finish triangle*/
+	border-bottom: 8px solid #999;
+}
+
+.desc.active .sort-icon {
+	/*finish triangle*/
+	border-top: 8px solid #999;
+}
+</style></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function find_all(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sort_column(elem) {
+    toggle_sort_states(elem);
+    var colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    var key;
+    if (elem.classList.contains('numeric')) {
+        key = key_num;
+    } else if (elem.classList.contains('result')) {
+        key = key_result;
+    } else {
+        key = key_alpha;
+    }
+    sort_table(elem, key(colIndex));
+}
+
+function show_all_extras() {
+    find_all('.col-result').forEach(show_extras);
+}
+
+function hide_all_extras() {
+    find_all('.col-result').forEach(hide_extras);
+}
+
+function show_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.remove("collapsed");
+    expandcollapse.classList.remove("expander");
+    expandcollapse.classList.add("collapser");
+}
+
+function hide_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.add("collapsed");
+    expandcollapse.classList.remove("collapser");
+    expandcollapse.classList.add("expander");
+}
+
+function show_filters() {
+    var filter_items = document.getElementsByClassName('filter');
+    for (var i = 0; i < filter_items.length; i++)
+        filter_items[i].hidden = false;
+}
+
+function add_collapse() {
+    // Add links for show/hide all
+    var resulttable = find('table#results-table');
+    var showhideall = document.createElement("p");
+    showhideall.innerHTML = '<a href="javascript:show_all_extras()">Show all details</a> / ' +
+                            '<a href="javascript:hide_all_extras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    find_all('.col-result').forEach(function(elem) {
+        var extras = elem.parentNode.nextElementSibling;
+        var expandcollapse = document.createElement("span");
+        if (elem.innerHTML === 'Passed') {
+            extras.classList.add("collapsed");
+            expandcollapse.classList.add("expander");
+        } else {
+            expandcollapse.classList.add("collapser");
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener("click", function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains("collapsed")) {
+                show_extras(event.currentTarget);
+            } else {
+                hide_extras(event.currentTarget);
+            }
+        });
+    })
+}
+
+function init () {
+    reset_sort_headers();
+
+    add_collapse();
+
+    show_filters();
+
+    toggle_sort_states(find('.initial-sort'));
+
+    find_all('.sortable').forEach(function(elem) {
+        elem.addEventListener("click",
+                              function(event) {
+                                  sort_column(elem);
+                              }, false)
+    });
+
+};
+
+function sort_table(clicked, key_func) {
+    var rows = find_all('.results-table-row');
+    var reversed = !clicked.classList.contains('asc');
+    var sorted_rows = sort(rows, key_func, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    var thead = document.getElementById("results-table-head");
+    document.getElementById('results-table').remove();
+    var parent = document.createElement("table");
+    parent.id = "results-table";
+    parent.appendChild(thead);
+    sorted_rows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName("BODY")[0].appendChild(parent);
+}
+
+function sort(items, key_func, reversed) {
+    var sort_array = items.map(function(item, i) {
+        return [key_func(item), i];
+    });
+    var multiplier = reversed ? -1 : 1;
+
+    sort_array.sort(function(a, b) {
+        var key_a = a[0];
+        var key_b = b[0];
+        return multiplier * (key_a >= key_b ? 1 : -1);
+    });
+
+    return sort_array.map(function(item) {
+        var index = item[1];
+        return items[index];
+    });
+}
+
+function key_alpha(col_index) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[col_index].firstChild.data.toLowerCase();
+    };
+}
+
+function key_num(col_index) {
+    return function(elem) {
+        return parseFloat(elem.childNodes[1].childNodes[col_index].firstChild.data);
+    };
+}
+
+function key_result(col_index) {
+    return function(elem) {
+        var strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+                       'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[col_index].firstChild.data);
+    };
+}
+
+function reset_sort_headers() {
+    find_all('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    find_all('.sortable').forEach(function(elem) {
+        var icon = document.createElement("div");
+        icon.className = "sort-icon";
+        icon.textContent = "vvv";
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove("desc", "active");
+        elem.classList.add("asc", "inactive");
+    });
+}
+
+function toggle_sort_states(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        reset_sort_headers();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function is_all_rows_hidden(value) {
+  return value.hidden == false;
+}
+
+function filter_table(elem) {
+    var outcome_att = "data-test-result";
+    var outcome = elem.getAttribute(outcome_att);
+    class_outcome = outcome + " results-table-row";
+    var outcome_rows = document.getElementsByClassName(class_outcome);
+
+    for(var i = 0; i < outcome_rows.length; i++){
+        outcome_rows[i].hidden = !elem.checked;
+    }
+
+    var rows = find_all('.results-table-row').filter(is_all_rows_hidden);
+    var all_rows_hidden = rows.length == 0 ? true : false;
+    var not_found_message = document.getElementById("not-found-message");
+    not_found_message.hidden = !all_rows_hidden;
+}
+</script>
+    <p>Report generated on 17-Jun-2018 at 16:06:08 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.16.0</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>JAVA_HOME</td>
+        <td>/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home</td></tr>
+      <tr>
+        <td>Packages</td>
+        <td>{&apos;py&apos;: &apos;1.4.34&apos;, &apos;pytest&apos;: &apos;3.1.3&apos;, &apos;pluggy&apos;: &apos;0.4.0&apos;}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>Darwin-17.5.0-x86_64-i386-64bit</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{&apos;celery&apos;: &apos;4.1.0&apos;, &apos;json&apos;: &apos;0.4.0&apos;, &apos;html&apos;: &apos;1.16.0&apos;, &apos;metadata&apos;: &apos;1.5.1&apos;}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>2.7.13</td></tr></table>
+    <h2>Summary</h2>
+    <p>22 tests ran in 0.85 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">10 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">2 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">10 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable numeric" col="duration">Duration</th>
+          <th>Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalDivision::()::test_DivisionOfPositiveNumberAndZero</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalDivision object at 0x1038be3d0&gt;<br/><br/>    def test_DivisionOfPositiveNumberAndZero(self):<br/>        a= 55.0<br/>        b=0.0<br/>        url = "http://localhost:8080/math/divide?a="+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=url)<br/>    <br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>    <br/>        myDict = {}<br/>&gt;       if data != (a/b):<br/><span class="error">E       ZeroDivisionError: float division by zero</span><br/><br/>smokeTest.py:88: ZeroDivisionError<br/></div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalSquareRoot::()::test_SquareRoot_NegativeIntegerNumber</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalSquareRoot object at 0x103908510&gt;<br/><br/>    def test_SquareRoot_NegativeIntegerNumber(self):<br/>        url = "http://localhost:8080/math/sqrt?a="<br/>        num=-100<br/>        newurl = url+str(num)<br/>        getResponse = requests.get(url=newurl)<br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>        myDict = {}<br/>&gt;       if data != math.sqrt(num):<br/><span class="error">E       ValueError: math domain error</span><br/><br/>smokeTest.py:451: ValueError<br/></div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalDivision::()::test_DivisionOfZeroAndPositiveNumber</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalDivision object at 0x10392c590&gt;<br/><br/>    def test_DivisionOfZeroAndPositiveNumber(self):<br/>        a= 0.0<br/>        b=44.0<br/>        url = "http://localhost:8080/math/divide?a="+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=url)<br/>    <br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>    <br/>        myDict = {}<br/>        if data != (a/b):<br/>    <br/>            myDict[a,b]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:117: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{(0.0, 44.0): 0.28695652173913044}
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalMultiplication::()::test_MultiplicationOfTwoNegativeIntegers</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalMultiplication object at 0x10393ae10&gt;<br/><br/>    def test_MultiplicationOfTwoNegativeIntegers(self):<br/>        a= randint(-100,0)<br/>        b= randint(-100,0)<br/>        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&amp;b=" + str(b)<br/>        getResponse = requests.get(url=url)<br/>    <br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>    <br/>        myDict = {}<br/>        if data != (a*b):<br/>    <br/>            myDict[a,b]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:158: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{(-60, -42): -484}
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalMultiplication::()::test_MultiplicationOfPositiveNumberAndZero</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalMultiplication object at 0x10395ee90&gt;<br/><br/>    def test_MultiplicationOfPositiveNumberAndZero(self):<br/>        a= 55<br/>        b=0<br/>        url = "http://localhost:8080/math/multiply?a="+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=url)<br/>    <br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>    <br/>        myDict = {}<br/>        if data != (a*b):<br/>    <br/>            myDict[a,b]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:199: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{(55, 0): 200}
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalAddition::()::test_AdditionOfTPosiitveAndNegativeInteger</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalAddition object at 0x103978d10&gt;<br/><br/>    def test_AdditionOfTPosiitveAndNegativeInteger(self):<br/>        a= randint(0,100)<br/>        b= randint(-100,0)<br/>        url = "http://localhost:8080/math/add?a="+ str(a)+"&amp;b=" + str(b)<br/>        getResponse = requests.get(url=url)<br/>    <br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>    <br/>        myDict = {}<br/>        if data != (a+b):<br/>    <br/>            myDict[a,b]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:261: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{(54, -13): 58}
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalAddition::()::test_AdditionOfPositiveNumberAndZero</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalAddition object at 0x103993750&gt;<br/><br/>    def test_AdditionOfPositiveNumberAndZero(self):<br/>        a= 55<br/>        b=0<br/>        url = "http://localhost:8080/math/add?a="+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=url)<br/>    <br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>    <br/>        myDict = {}<br/>        if data != (a+b):<br/>    <br/>            myDict[a,b]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:282: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{(55, 0): 162}
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalSubtraction::()::test_SubtractionOfTwoNegativeIntegers</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalSubtraction object at 0x1039ae5d0&gt;<br/><br/>    def test_SubtractionOfTwoNegativeIntegers(self):<br/>        a= randint(-100,0)<br/>        b= randint(-100,0)<br/>        url = "http://localhost:8080/math/minus?a="+ str(a)+"&amp;b=" + str(b)<br/>        getResponse = requests.get(url=url)<br/>    <br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>    <br/>        myDict = {}<br/>        if data != (a-b):<br/>    <br/>            myDict[a,b]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:322: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{(-89, -39): -142}
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalSubtraction::()::test_SubtractionOfPositiveNumberAndZero</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalSubtraction object at 0x103993590&gt;<br/><br/>    def test_SubtractionOfPositiveNumberAndZero(self):<br/>        a= 55<br/>        b=0<br/>        url = "http://localhost:8080/math/minus?a="+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=url)<br/>    <br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>    <br/>        myDict = {}<br/>        if data != (a-b):<br/>    <br/>            myDict[a,b]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:363: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{(55, 0): 103}
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalSquareRoot::()::test_SquareRoot_Zero</td>
+          <td class="col-duration">0.04</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalSquareRoot object at 0x103894e10&gt;<br/><br/>    def test_SquareRoot_Zero(self):<br/>        # Test Case to check square root functionality for random integer say 36<br/>        url = "http://localhost:8080/math/sqrt?a="<br/>        num=0<br/>        newurl = url+str(num)<br/>        getResponse = requests.get(url=newurl)<br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>        myDict = {}<br/>        if data != math.sqrt(num):<br/>    <br/>            myDict[num]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:384: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{0: 8.48528137423857}
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalSquareRoot::()::test_SquareRoot_RandomWholeInteger</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalSquareRoot object at 0x103954450&gt;<br/><br/>    def test_SquareRoot_RandomWholeInteger(self):<br/>        # Test Case to check square root functionality for random integer say 36<br/>        url = "http://localhost:8080/math/sqrt?a="<br/>        num=36<br/>        newurl = url+str(num)<br/>        getResponse = requests.get(url=newurl)<br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>        myDict = {}<br/>        if data != math.sqrt(num):<br/>    <br/>            myDict[num]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:403: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{36: 7.615773105863909}
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalSquareRoot::()::test_SquareRoot_PositiveFloatNumber</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorService.smokeTest.TestFunctionalSquareRoot object at 0x10396bcd0&gt;<br/><br/>    def test_SquareRoot_PositiveFloatNumber(self):<br/>        url = "http://localhost:8080/math/sqrt?a="<br/>        num=10.24<br/>        newurl = url+str(num)<br/>        # print newurl<br/>        getResponse = requests.get(url=newurl)<br/>        response = getResponse.text<br/>        data = getResponse.json()<br/>        myDict = {}<br/>        if data != math.sqrt(num):<br/>    <br/>            myDict[num]=data<br/>            print myDict<br/>    <br/>        try :<br/>            assert len(myDict) == 0, "Wrong result"<br/>        except Exception:<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:423: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>{10.24: {u'status': 400, u'exception': u'org.springframework.web.method.annotation.MethodArgumentTypeMismatchException', u'timestamp': 1529231768111, u'error': u'Bad Request', u'path': u'/math/sqrt', u'message': u'Failed to convert value of type \'java.lang.String\' to required type \'int\'; nested exception is java.lang.NumberFormatException: For input string: "10.24"'}}
+</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalDivision::()::test_DivisionOfTwoPositiveIntegers</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">----------------------------- Captured stdout call -----------------------------<br/>http://localhost:8080/math/divide?a=26.0&amp;b=4.0
+6.5
+</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalDivision::()::test_DivisionOfTwoNegativeIntegers</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalDivision::()::test_DivisionOfTPosiitveAndNegativeInteger</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalMultiplication::()::test_MultiplicationOfTwoPositiveIntegers</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalMultiplication::()::test_MultiplicationOfTPosiitveAndNegativeInteger</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalAddition::()::test_AdditionOfTwoPositiveIntegers</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalAddition::()::test_AdditionOfTwoNegativeIntegers</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalSubtraction::()::test_SubtractionOfTwoPositiveIntegers</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalSubtraction::()::test_SubtractionOfPosiitveAndNegativeInteger</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorService/smokeTest.py::TestFunctionalSquareRoot::()::test_SquareRoot_PositiveWholeNumber</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody></table></body></html>
