@@ -173,7 +173,6 @@ class TestFunctionalSubtraction(object):
         except Exception:
             pytest.xfail("Failed")
 
-
 class TestFunctionalMultiplication(object):
     
     def test_MultiplicationOfTwoPositiveIntegers(self):
@@ -358,8 +357,6 @@ class TestFunctionalDivision(object):
             assert len(myDict) == 0, "Wrong result"
         except Exception:
             pytest.xfail("Failed")
-
-
 
 class TestFunctionalSquareRoot(object):
     
