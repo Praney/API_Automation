@@ -385,7 +385,7 @@ function filter_table(elem) {
     not_found_message.hidden = !all_rows_hidden;
 }
 </script>
-    <p>Report generated on 18-Jun-2018 at 13:01:01 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.16.0</p>
+    <p>Report generated on 18-Jun-2018 at 13:07:49 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.16.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -404,8 +404,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>2.7.13</td></tr></table>
     <h2>Summary</h2>
-    <p>22 tests ran in 0.84 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">11 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">2 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">9 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>22 tests ran in 0.65 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">12 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">2 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">8 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -424,7 +424,7 @@ function filter_table(elem) {
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalDivision object at 0x10ca4a610&gt;<br/><br/>    def test_DivisionOfPositiveNumberAndZero(self):<br/>        a= 55.0<br/>        b=0.0<br/>    <br/>        newurl = self.url + str(a)+"&amp;b=" + str(b)<br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>&gt;       if data != (a/b):<br/><span class="error">E       ZeroDivisionError: float division by zero</span><br/><br/>smokeTest.py:210: ZeroDivisionError<br/></div></td></tr></tbody>
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalDivision object at 0x10d0b9d90&gt;<br/><br/>    def test_DivisionOfPositiveNumberAndZero(self):<br/>        a= 55.0<br/>        b=0.0<br/>    <br/>        newurl = self.url + str(a)+"&amp;b=" + str(b)<br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>&gt;       if data != (a/b):<br/><span class="error">E       ZeroDivisionError: float division by zero</span><br/><br/>smokeTest.py:225: ZeroDivisionError<br/></div></td></tr></tbody>
       <tbody class="failed results-table-row">
         <tr>
           <td class="col-result">Failed</td>
@@ -433,7 +433,7 @@ function filter_table(elem) {
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSquareRoot object at 0x10ca8cfd0&gt;<br/><br/>    def test_SquareRoot_NegativeIntegerNumber(self):<br/>    <br/>        num=-100<br/>    <br/>        newurl = self.url+str(num)<br/>    <br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>&gt;       if data != math.sqrt(num):<br/><span class="error">E       ValueError: math domain error</span><br/><br/>smokeTest.py:280: ValueError<br/></div></td></tr></tbody>
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSquareRoot object at 0x10d134bd0&gt;<br/><br/>    def test_SquareRoot_NegativeIntegerNumber(self):<br/>    <br/>        num=-100<br/>    <br/>        newurl = self.url+str(num)<br/>    <br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>&gt;       if data != math.sqrt(num):<br/><span class="error">E       ValueError: math domain error</span><br/><br/>smokeTest.py:301: ValueError<br/></div></td></tr></tbody>
       <tbody class="xfailed results-table-row">
         <tr>
           <td class="col-result">XFailed</td>
@@ -442,7 +442,18 @@ function filter_table(elem) {
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalAddition object at 0x10ca29450&gt;<br/><br/>    def test_AdditionOfPositiveNumberAndZero(self):<br/>        a= 55<br/>        b=0<br/>        urlnew = self.url+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=urlnew)<br/>    <br/>        data = getResponse.json()<br/>        if data != (a+b):<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:56: XFailed<br/></div></td></tr></tbody>
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalAddition object at 0x10d07d5d0&gt;<br/><br/>    def test_AdditionOfPositiveNumberAndZero(self):<br/>        a= 55<br/>        b=0<br/>        urlnew = self.url+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=urlnew)<br/>    <br/>        data = getResponse.json()<br/>        if data != (a+b):<br/>            print a,",",b,":",data<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:60: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>55 , 0 : 113
+</div></td></tr></tbody>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalSubtraction::()::test_SubtractionOfTwoPositiveIntegers</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSubtraction object at 0x10d0b9850&gt;<br/><br/>    def test_SubtractionOfTwoPositiveIntegers(self):<br/>    <br/>        a= randint(0,100)<br/>        b= randint(0,100)<br/>    <br/>        urlnew = self.url+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=urlnew)<br/>        data = getResponse.json()<br/>        if data != (a-b):<br/>            print a,",",b,":",data<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:77: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>12 , 44 : -39
+</div></td></tr></tbody>
       <tbody class="xfailed results-table-row">
         <tr>
           <td class="col-result">XFailed</td>
@@ -451,25 +462,8 @@ function filter_table(elem) {
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSubtraction object at 0x10ca5e750&gt;<br/><br/>    def test_SubtractionOfPositiveNumberAndZero(self):<br/>    <br/>        a= 55<br/>        b=0<br/>    <br/>        urlnew = self.url+ str(a)+"&amp;b=" + str(b)<br/>        getResponse = requests.get(url=urlnew)<br/>    <br/>        data = getResponse.json()<br/>        if data != (a-b):<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:109: XFailed<br/></div></td></tr></tbody>
-      <tbody class="xfailed results-table-row">
-        <tr>
-          <td class="col-result">XFailed</td>
-          <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalMultiplication::()::test_MultiplicationOfTwoNegativeIntegers</td>
-          <td class="col-duration">0.01</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalMultiplication object at 0x10ca74150&gt;<br/><br/>    def test_MultiplicationOfTwoNegativeIntegers(self):<br/>    <br/>        a= randint(-100,0)<br/>        b= randint(-100,0)<br/>    <br/>        urlnew = self.url+ str(a)+"&amp;b=" + str(b)<br/>        getResponse = requests.get(url=urlnew)<br/>    <br/>        data = getResponse.json()<br/>    <br/>        if data != (a*b):<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:138: XFailed<br/></div></td></tr></tbody>
-      <tbody class="xfailed results-table-row">
-        <tr>
-          <td class="col-result">XFailed</td>
-          <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalMultiplication::()::test_MultiplicationOfTPosiitveAndNegativeInteger</td>
-          <td class="col-duration">0.01</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalMultiplication object at 0x10ca5de50&gt;<br/><br/>    def test_MultiplicationOfTPosiitveAndNegativeInteger(self):<br/>    <br/>        a= randint(0,100)<br/>        b= randint(-100,0)<br/>    <br/>        urlnew = self.url+ str(a)+"&amp;b=" + str(b)<br/>        getResponse = requests.get(url=urlnew)<br/>    <br/>        data = getResponse.json()<br/>    <br/>        if data != (a*b):<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:151: XFailed<br/></div></td></tr></tbody>
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSubtraction object at 0x10d0d75d0&gt;<br/><br/>    def test_SubtractionOfPositiveNumberAndZero(self):<br/>    <br/>        a= 55<br/>        b=0<br/>    <br/>        urlnew = self.url+ str(a)+"&amp;b=" + str(b)<br/>        getResponse = requests.get(url=urlnew)<br/>    <br/>        data = getResponse.json()<br/>        if data != (a-b):<br/>            print a,",",b,":",data<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:117: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>55 , 0 : 50
+</div></td></tr></tbody>
       <tbody class="xfailed results-table-row">
         <tr>
           <td class="col-result">XFailed</td>
@@ -478,7 +472,8 @@ function filter_table(elem) {
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalMultiplication object at 0x10c85fcd0&gt;<br/><br/>    def test_MultiplicationOfPositiveNumberAndZero(self):<br/>        a= 55<br/>        b=0<br/>    <br/>        urlnew = self.url+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=urlnew)<br/>        data = getResponse.json()<br/>    <br/>        if data != (a*b):<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:163: XFailed<br/></div></td></tr></tbody>
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalMultiplication object at 0x10d0e6b90&gt;<br/><br/>    def test_MultiplicationOfPositiveNumberAndZero(self):<br/>        a= 55<br/>        b=0<br/>    <br/>        urlnew = self.url+ str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=urlnew)<br/>        data = getResponse.json()<br/>    <br/>        if data != (a*b):<br/>            print a,",",b,":",data<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:175: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>55 , 0 : 2926
+</div></td></tr></tbody>
       <tbody class="xfailed results-table-row">
         <tr>
           <td class="col-result">XFailed</td>
@@ -487,7 +482,8 @@ function filter_table(elem) {
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalDivision object at 0x10ca38650&gt;<br/><br/>    def test_DivisionOfZeroAndPositiveNumber(self):<br/>        a= 0.0<br/>        b=44.0<br/>    <br/>        newurl = self.url + str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>        if data != (a/b):<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:223: XFailed<br/></div></td></tr></tbody>
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalDivision object at 0x10d102f50&gt;<br/><br/>    def test_DivisionOfZeroAndPositiveNumber(self):<br/>        a= 0.0<br/>        b=44.0<br/>    <br/>        newurl = self.url + str(a)+"&amp;b=" + str(b)<br/>    <br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>        if data != (a/b):<br/>            print a,",",b,":",data<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:240: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>0.0 , 44.0 : 0.171428571429
+</div></td></tr></tbody>
       <tbody class="xfailed results-table-row">
         <tr>
           <td class="col-result">XFailed</td>
@@ -496,7 +492,8 @@ function filter_table(elem) {
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSquareRoot object at 0x10ca38890&gt;<br/><br/>    def test_SquareRoot_Zero(self):<br/>    <br/>        num=0<br/>        newurl = self.url+str(num)<br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>        if data != math.sqrt(num):<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:236: XFailed<br/></div></td></tr></tbody>
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSquareRoot object at 0x10d110710&gt;<br/><br/>    def test_SquareRoot_Zero(self):<br/>    <br/>        num=0<br/>        newurl = self.url+str(num)<br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>        if data != math.sqrt(num):<br/>            print num,":",data<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:254: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>0 : 6.16441400297
+</div></td></tr></tbody>
       <tbody class="xfailed results-table-row">
         <tr>
           <td class="col-result">XFailed</td>
@@ -505,21 +502,23 @@ function filter_table(elem) {
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSquareRoot object at 0x10ca8fa90&gt;<br/><br/>    def test_SquareRoot_RandomWholeInteger(self):<br/>        # Test Case to check square root functionality for random integer say 36<br/>    <br/>        num=36<br/>        newurl = self.url+str(num)<br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>        if data != math.sqrt(num):<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:247: XFailed<br/></div></td></tr></tbody>
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSquareRoot object at 0x10d11b510&gt;<br/><br/>    def test_SquareRoot_RandomWholeInteger(self):<br/>        # Test Case to check square root functionality for random integer say 36<br/>    <br/>        num=36<br/>        newurl = self.url+str(num)<br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>        if data != math.sqrt(num):<br/>            print num,":",data<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:266: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>36 : 9.89949493661
+</div></td></tr></tbody>
       <tbody class="xfailed results-table-row">
         <tr>
           <td class="col-result">XFailed</td>
           <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalSquareRoot::()::test_SquareRoot_PositiveFloatNumber</td>
-          <td class="col-duration">0.02</td>
+          <td class="col-duration">0.01</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSquareRoot object at 0x10ca8ebd0&gt;<br/><br/>    def test_SquareRoot_PositiveFloatNumber(self):<br/>    <br/>        num=10.24<br/>        newurl = self.url+str(num)<br/>        # print newurl<br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>        if data != math.sqrt(num):<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:259: XFailed<br/></div></td></tr></tbody>
+            <div class="log">self = &lt;RuntasticTest.TestCalulatorServiceFunctional.smokeTest.TestFunctionalSquareRoot object at 0x10d1248d0&gt;<br/><br/>    def test_SquareRoot_PositiveFloatNumber(self):<br/>    <br/>        num=10.24<br/>        newurl = self.url+str(num)<br/>        # print newurl<br/>        getResponse = requests.get(url=newurl)<br/>        data = getResponse.json()<br/>    <br/>        if data != math.sqrt(num):<br/>            print num,":",data<br/>&gt;           pytest.xfail("Failed")<br/><span class="error">E           XFailed: Failed</span><br/><br/>smokeTest.py:279: XFailed<br/>----------------------------- Captured stdout call -----------------------------<br/>10.24 : {u'status': 400, u'exception': u'org.springframework.web.method.annotation.MethodArgumentTypeMismatchException', u'timestamp': 1529307469086, u'error': u'Bad Request', u'path': u'/math/sqrt', u'message': u'Failed to convert value of type \'java.lang.String\' to required type \'int\'; nested exception is java.lang.NumberFormatException: For input string: "10.24"'}
+</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalAddition::()::test_AdditionOfTwoPositiveIntegers</td>
-          <td class="col-duration">0.02</td>
+          <td class="col-duration">0.01</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -537,15 +536,6 @@ function filter_table(elem) {
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalAddition::()::test_AdditionOfTPosiitveAndNegativeInteger</td>
-          <td class="col-duration">0.01</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="empty log">No log output captured.</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalSubtraction::()::test_SubtractionOfTwoPositiveIntegers</td>
           <td class="col-duration">0.01</td>
           <td class="col-links"></td></tr>
         <tr>
@@ -573,6 +563,24 @@ function filter_table(elem) {
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalMultiplication::()::test_MultiplicationOfTwoPositiveIntegers</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalMultiplication::()::test_MultiplicationOfTwoNegativeIntegers</td>
+          <td class="col-duration">0.01</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">TestCalulatorServiceFunctional/smokeTest.py::TestFunctionalMultiplication::()::test_MultiplicationOfTPosiitveAndNegativeInteger</td>
           <td class="col-duration">0.01</td>
           <td class="col-links"></td></tr>
         <tr>

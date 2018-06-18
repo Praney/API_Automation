@@ -22,6 +22,7 @@ class TestFunctionalAddition(object):
         getResponse = requests.get(url=urlnew)
         data = getResponse.json()
         if data != (a+b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
     
     def test_AdditionOfTwoNegativeIntegers(self):
@@ -32,6 +33,7 @@ class TestFunctionalAddition(object):
         
         data = getResponse.json()
         if data != (a+b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
     def test_AdditionOfTPosiitveAndNegativeInteger(self):
@@ -42,6 +44,7 @@ class TestFunctionalAddition(object):
         
         data = getResponse.json()
         if data != (a+b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
     def test_AdditionOfPositiveNumberAndZero(self):
@@ -53,6 +56,7 @@ class TestFunctionalAddition(object):
         
         data = getResponse.json()
         if data != (a+b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
 class TestFunctionalSubtraction(object):
@@ -69,6 +73,7 @@ class TestFunctionalSubtraction(object):
         getResponse = requests.get(url=urlnew)
         data = getResponse.json()
         if data != (a-b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
     def test_SubtractionOfTwoNegativeIntegers(self):
@@ -82,6 +87,7 @@ class TestFunctionalSubtraction(object):
         
         data = getResponse.json()
         if data != (a-b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
     def test_SubtractionOfPosiitveAndNegativeInteger(self):
@@ -94,6 +100,7 @@ class TestFunctionalSubtraction(object):
         
         data = getResponse.json()
         if data != (a-b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
     def test_SubtractionOfPositiveNumberAndZero(self):
@@ -106,6 +113,7 @@ class TestFunctionalSubtraction(object):
         
         data = getResponse.json()
         if data != (a-b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
 class TestFunctionalMultiplication(object):
@@ -122,6 +130,7 @@ class TestFunctionalMultiplication(object):
         data = getResponse.json()
      
         if data != (a*b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
     
     def test_MultiplicationOfTwoNegativeIntegers(self):
@@ -135,6 +144,7 @@ class TestFunctionalMultiplication(object):
         data = getResponse.json()
        
         if data != (a*b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
     def test_MultiplicationOfTPosiitveAndNegativeInteger(self):
@@ -148,6 +158,7 @@ class TestFunctionalMultiplication(object):
         data = getResponse.json()
         
         if data != (a*b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
     def test_MultiplicationOfPositiveNumberAndZero(self):
@@ -160,6 +171,7 @@ class TestFunctionalMultiplication(object):
         data = getResponse.json()
 
         if data != (a*b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
 class TestFunctionalDivision(object):
@@ -175,6 +187,7 @@ class TestFunctionalDivision(object):
         data = getResponse.json()    
 
         if data != (a/b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
     
     def test_DivisionOfTwoNegativeIntegers(self):
@@ -186,6 +199,7 @@ class TestFunctionalDivision(object):
         data = getResponse.json()
         
         if data != (a/b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
     def test_DivisionOfTPosiitveAndNegativeInteger(self):
@@ -197,6 +211,7 @@ class TestFunctionalDivision(object):
         data = getResponse.json()
      
         if data != (a/b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
     def test_DivisionOfPositiveNumberAndZero(self):
@@ -208,6 +223,7 @@ class TestFunctionalDivision(object):
         data = getResponse.json()
         
         if data != (a/b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
     
     def test_DivisionOfZeroAndPositiveNumber(self):
@@ -220,6 +236,7 @@ class TestFunctionalDivision(object):
         data = getResponse.json()
      
         if data != (a/b):
+            print a,",",b,":",data
             pytest.xfail("Failed")
 
 class TestFunctionalSquareRoot(object):
@@ -233,6 +250,7 @@ class TestFunctionalSquareRoot(object):
         data = getResponse.json()
      
         if data != math.sqrt(num):
+            print num,":",data
             pytest.xfail("Failed")
         
     def test_SquareRoot_RandomWholeInteger(self):
@@ -244,6 +262,7 @@ class TestFunctionalSquareRoot(object):
         data = getResponse.json()
      
         if data != math.sqrt(num):
+            print num,":",data
             pytest.xfail("Failed")
 
     
@@ -256,6 +275,7 @@ class TestFunctionalSquareRoot(object):
         data = getResponse.json()
      
         if data != math.sqrt(num):
+            print num,":",data
             pytest.xfail("Failed")
     
     def test_SquareRoot_PositiveWholeNumber(self):
@@ -266,6 +286,7 @@ class TestFunctionalSquareRoot(object):
         data = getResponse.json()
      
         if data != math.sqrt(num):
+            print num,":",data
             pytest.xfail("Failed")
 
     def test_SquareRoot_NegativeIntegerNumber(self):
@@ -278,4 +299,5 @@ class TestFunctionalSquareRoot(object):
         data = getResponse.json()
      
         if data != math.sqrt(num):
+            print num,":",data
             pytest.xfail("Failed")
