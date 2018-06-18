@@ -219,7 +219,7 @@ class TestFunctionalDivision(object):
             print a,",",b,":",data
             pytest.xfail("Failed")
 
-    def test_DivisionOfTPositiveAndNegativeInteger(self):
+    def test_DivisionOfPositiveAndNegativeInteger(self):
         # Test Case to divide positive and negative integer
 
         a= round(uniform(0,100),0)
@@ -236,7 +236,7 @@ class TestFunctionalDivision(object):
     def test_DivisionOfPositiveNumberAndZero(self):
         # Test Case to divide positive integer and zero
 
-        a= 55.0
+        a= round(uniform(0,100),2)
         b=0.0
 
         newurl = self.url + str(a)+"&b=" + str(b)
@@ -251,7 +251,7 @@ class TestFunctionalDivision(object):
         # Test Case to divide zero by positive integer
 
         a= 0.0
-        b=44.0
+        b=round(uniform(0,100),2)
 
         newurl = self.url + str(a)+"&b=" + str(b)
         
@@ -294,7 +294,7 @@ class TestFunctionalSquareRoot(object):
     def test_SquareRoot_PositiveFloatNumber(self):
         # Test Case to check square root of float number
 
-        num=10.24
+        num=round(uniform(0,100),2)
         newurl = self.url+str(num)
         # print newurl
         getResponse = requests.get(url=newurl)
